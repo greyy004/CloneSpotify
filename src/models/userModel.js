@@ -6,6 +6,7 @@ export const createUserTable = async () => {
             id SERIAL PRIMARY KEY,
             username VARCHAR(50) UNIQUE NOT NULL,
             email VARCHAR(100) UNIQUE NOT NULL,
+            isAdmin BOOLEAN DEFAULT FALSE,
             password_hash VARCHAR(255) NOT NULL
         )
     `);

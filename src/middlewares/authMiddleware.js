@@ -1,5 +1,25 @@
 import User from '../models/userModel.js'; // Import User model
 
+export const validateLogin = async (req,res,next) => {
+    const { email, password} = req.body;
+    if(!email || !password)
+    {
+        return res.status(400).send('All fields are required');
+    }
+
+    if (!/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(email)) {
+        return res.status(400).send('Please enter a valid email address.');
+    }
+
+    if (password.length < 8) {
+        return res.status(400).send('Password must be at least 8 characters long.');
+    }
+    next();
+};
+
+
+
+
 export const validateRegistration = async (req, res, next) => {
     const { username, email, password, confirmPassword } = req.body;
 

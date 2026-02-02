@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById('registerForm');
 
-    registerForm.addEventListener('submit', (event) => {
+    registerForm.addEventListener('submit', async (event) => {
+        event.preventDefault(); // Always prevent default, then decide to fetch
         let isValid = true;
 
         // Clear previous errors
@@ -37,8 +38,35 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         }
 
-        if (!isValid) {
-            event.preventDefault(); // Stop form submission if validation fails
+        if (isValid) {
+            try {
+                const response = await fetch('/auth/register', {
+                    method: 'POST',
+                    body: JSON.stringify({ username, email, password, confirmPassword }), // Send confirmPassword for server-side
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.redirected) {
+                    // If the server sent a redirect, follow it
+                    window.location.href = response.url;
+                } else if (response.ok) {
+                    // If it's a successful non-redirect response (e.g., if you later send JSON on success)
+                    const data = await response.json();
+                    console.log('Registration successful (non-redirect):', data);
+                    // You might still want to redirect here if needed, or update UI
+                    alert('Registration successful!');
+                } else {
+                    // Handle server-side errors (e.g., validation errors caught by middleware)
+                    const errorText = await response.text(); 
+                    console.error('Registration failed:', errorText);
+                    alert('Registration failed: ' + errorText);
+                }
+            } catch (error) {
+                console.error('Network or fetch error:', error);
+                alert('An unexpected error occurred.');
+            }
         }
     });
 

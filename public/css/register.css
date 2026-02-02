@@ -1,4 +1,5 @@
-/* Global Reset and Base Styles */
+/* public/css/register.css */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -16,8 +17,7 @@ body {
   padding: 20px;
 }
 
-/* Register Container */
-.register-container {
+.form-wrapper {
   background: rgba(18, 18, 18, 0.95);
   backdrop-filter: blur(10px);
   padding: 50px 45px;
@@ -29,8 +29,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Heading */
-.register-container h1 {
+form h1, form h2 {
   margin-bottom: 35px;
   text-align: center;
   font-size: 32px;
@@ -42,16 +41,15 @@ body {
   background-clip: text;
 }
 
-/* Form Styles */
-#registerForm {
-  display: flex;
-  flex-direction: column;
+form {
+    display: flex;
+    flex-direction: column;
 }
 
-#registerForm input {
+form input {
   width: 100%;
   padding: 13px 18px;
-  margin-bottom: 5px;
+  margin-bottom: 5px; /* Smaller margin for error messages */
   border: 2px solid transparent;
   border-radius: 8px;
   background: #282828;
@@ -61,29 +59,17 @@ body {
   outline: none;
 }
 
-#registerForm input:focus {
+form input:focus {
   border-color: #1db954;
   background: #333;
   box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.1);
 }
 
-#registerForm input::placeholder {
+form input::placeholder {
   color: #a0a0a0;
 }
 
-/* Error Messages */
-.error-message {
-  color: #ff4444;
-  font-size: 13px;
-  margin-bottom: 12px;
-  margin-top: -5px;
-  margin-left: 4px;
-  min-height: 18px;
-  display: block;
-}
-
-/* Button */
-#registerForm button {
+form button {
   width: 100%;
   padding: 16px;
   margin-top: 10px;
@@ -100,18 +86,17 @@ body {
   text-transform: uppercase;
 }
 
-#registerForm button:hover {
+form button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
   background: linear-gradient(135deg, #1fdf64, #1ed760);
 }
 
-#registerForm button:active {
+form button:active {
   transform: translateY(0);
 }
 
-/* Login Link */
-.login-link {
+.link-text {
   margin-top: 25px;
   text-align: center;
   font-size: 14px;
@@ -119,30 +104,39 @@ body {
   font-weight: bold;
 }
 
-.login-link a {
+.link-text a {
   color: #1db954;
   text-decoration: none;
   font-weight: bold;
   transition: all 0.2s ease;
 }
 
-.login-link a:hover {
+.link-text a:hover {
   color: #1ed760;
   text-decoration: underline;
 }
 
-/* Responsive Design */
+.error-message {
+    color: #ff4444;
+    font-size: 13px;
+    margin-bottom: 12px;
+    margin-top: -5px;
+    margin-left: 4px;
+    min-height: 18px;
+    display: block;
+}
+
 @media (max-width: 480px) {
-  .register-container {
+  .form-wrapper {
     padding: 40px 30px;
   }
   
-  .register-container h1 {
+  form h1, form h2 {
     font-size: 28px;
   }
 
-  #registerForm input,
-  #registerForm button {
+  form input,
+  form button {
     font-size: 14px;
   }
 }

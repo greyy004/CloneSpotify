@@ -1,9 +1,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import { initdb } from './src/configs/initdb.js';``
 import path from 'path';
 import { fileURLToPath } from 'url';
 import indexRoute from './src/routes/indexRoute.js';
-import authRoute from './src/routes/authRoute.js'; // Import authRoute
+import authRoute from './src/routes/authRoute.js';
 
 dotenv.config();
 
@@ -11,20 +12,21 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 5000; // Changed to PORT for consistency
+const PORT = process.env.PORT || 5000;
 
-// Middleware to parse URL-encoded bodies (for HTML form submissions)
+await initdb();
+// Middleware to parse URL-encoded bodies (for forms)
 app.use(express.urlencoded({ extended: true }));
-// Middleware to parse JSON bodies (if you'll have API endpoints)
+// Middleware to parse JSON bodies
 app.use(express.json());
 
 // Serve static files from public
-app.use(express.static(path.join(__dirname, 'public'))); // Use path.join for consistency
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Use the indexRoute for the root path
-app.use('/', indexRoute);
-// Integrate the authRoute for authentication-related paths
-app.use(authRoute);
+// Routes
+app.use('/', indexRoute);           // root routes
+app.use('/auth', authRoute);        // authentication routes (login, register)
+
 
 // Start server
 app.listen(PORT, () => {

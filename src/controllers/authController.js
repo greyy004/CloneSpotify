@@ -1,16 +1,7 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
 import bcrypt from 'bcrypt';
 import User from '../models/userModel.js'; // Import User model
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-export const getLoginPage = (req, res) => {
-    res.sendFile(path.join(__dirname, '..', '..', 'public', 'html', 'login.html'));
-};
-
-export const authenticateUser = async (req, res) => {
+export const loginUser = async (req, res) => {
     const { username, password } = req.body;
     
     try {
@@ -31,10 +22,6 @@ export const authenticateUser = async (req, res) => {
         console.error('Error during login:', error);
         res.status(500).send('Server error during login.');
     }
-};
-
-export const getRegisterPage = (req, res) => {
-    res.sendFile(path.join(__dirname, '..', '..', 'public', 'html', 'register.html'));
 };
 
 export const registerUser = async (req, res) => {

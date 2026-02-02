@@ -1,4 +1,5 @@
-/* Global Reset and Base Styles */
+/* public/css/login.css */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -16,8 +17,7 @@ body {
   padding: 20px;
 }
 
-/* Container */
-.container {
+.form-wrapper {
   background: rgba(18, 18, 18, 0.95);
   backdrop-filter: blur(10px);
   padding: 50px 45px;
@@ -29,8 +29,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Form Styles */
-.form h2 {
+form h1, form h2 {
   margin-bottom: 35px;
   text-align: center;
   font-size: 32px;
@@ -42,10 +41,15 @@ body {
   background-clip: text;
 }
 
-.form input {
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form input {
   width: 100%;
   padding: 13px 18px;
-  margin-bottom: 30px;
+  margin-bottom: 18px;
   border: 2px solid transparent;
   border-radius: 8px;
   background: #282828;
@@ -55,17 +59,17 @@ body {
   outline: none;
 }
 
-.form input:focus {
+form input:focus {
   border-color: #1db954;
   background: #333;
   box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.1);
 }
 
-.form input::placeholder {
+form input::placeholder {
   color: #a0a0a0;
 }
 
-.form button {
+form button {
   width: 100%;
   padding: 16px;
   margin-top: 10px;
@@ -82,17 +86,17 @@ body {
   text-transform: uppercase;
 }
 
-.form button:hover {
+form button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
   background: linear-gradient(135deg, #1fdf64, #1ed760);
 }
 
-.form button:active {
+form button:active {
   transform: translateY(0);
 }
 
-.form p {
+.link-text {
   margin-top: 25px;
   text-align: center;
   font-size: 14px;
@@ -100,25 +104,34 @@ body {
   font-weight: bold;
 }
 
-.form p a {
+.link-text a {
   color: #1db954;
   text-decoration: none;
   font-weight: bold;
   transition: all 0.2s ease;
 }
 
-.form p a:hover {
+.link-text a:hover {
   color: #1ed760;
   text-decoration: underline;
 }
 
-/* Responsive Design */
+.error-message {
+    color: #ff4444;
+    font-size: 13px;
+    margin-bottom: 12px;
+    margin-top: -5px;
+    margin-left: 4px;
+    min-height: 18px;
+    display: block;
+}
+
 @media (max-width: 480px) {
-  .container {
+  .form-wrapper {
     padding: 40px 30px;
   }
   
-  .form h2 {
+  form h1, form h2 {
     font-size: 28px;
   }
 }
