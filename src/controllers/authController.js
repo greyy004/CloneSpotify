@@ -13,7 +13,7 @@ export const loginUser = async (req, res) => {
             return res.status(401).send('Invalid password credentials');
         }
 
-        if (user.isAdmin) {
+        if (user.isadmin) {
             // Do admin stuff
             res.redirect('/admin/dashboard');
         }

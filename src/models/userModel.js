@@ -15,7 +15,7 @@ export const createUserTable = async () => {
 class User {
     static async findByUsername(username) {
         const result = await pool.query(
-            'SELECT * FROM users WHERE username = $1', 
+            'SELECT id, email, isAdmin, password_hash FROM users WHERE username = $1', 
             [username]
         );
         return result.rows[0];
@@ -23,7 +23,7 @@ class User {
     
     static async findByEmail(email) {
         const result = await pool.query(
-            'SELECT * FROM users WHERE email = $1', 
+            'SELECT id, username, isAdmin, password_hash FROM users WHERE email = $1', 
             [email]
         );
         return result.rows[0];
