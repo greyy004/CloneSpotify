@@ -2,21 +2,25 @@ import bcrypt from 'bcrypt';
 import User from '../models/userModel.js'; // Import User model
 
 export const loginUser = async (req, res) => {
-    const { username, password } = req.body;
-    
+    const { email, password } = req.body;
+
     try {
-        const user = await User.findByUsername(username);
-        if (!user) {
-            return res.status(401).send('Invalid credentials');
-        }
+        const user = await User.findByEmail(email);
+        if (!user) return res.status(401).send('Invalid credentials');
 
         const isMatch = await bcrypt.compare(password, user.password_hash);
         if (!isMatch) {
-            return res.status(401).send('Invalid credentials');
+            return res.status(401).send('Invalid password credentials');
         }
 
-        // In a real app, you'd establish a session or send a JWT here
-        res.send('Login successful! Welcome, ' + user.username);
+        if (user.isAdmin) {
+            // Do admin stuff
+            res.redirect('/admin/dashboard');
+        }
+        else
+        {
+            res.redirect('/user/dashboard');
+        }
 
     } catch (error) {
         console.error('Error during login:', error);

@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loginForm = document.getElementById('loginForm');
 
-    formLogin.addEventListener('submit', async (event) => {
+    loginForm.addEventListener('submit', async (event) => {
 
         event.preventDefault(); // Always prevent default, then decide to fetch
         let isValid = true;
@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
             el.textContent = '';
             el.style.display = 'none';
         });
-        const email = registerForm.elements.email.value;
-        const password = registerForm.elements.password.value;
+        const email = loginForm.elements.email.value;
+        const password = loginForm.elements.password.value;
 
         // Email validation
         if (!/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(email)) {

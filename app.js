@@ -5,6 +5,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import indexRoute from './src/routes/indexRoute.js';
 import authRoute from './src/routes/authRoute.js';
+import adminRoute from './src/routes/adminRoute.js';
+import userRoute from './src/routes/userRoute.js';
+
 
 dotenv.config();
 
@@ -24,8 +27,10 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use('/', indexRoute);           // root routes
-app.use('/auth', authRoute);        // authentication routes (login, register)
+app.use('/', indexRoute);           
+app.use('/auth', authRoute);  
+app.use('/admin',adminRoute);
+app.use('/user',userRoute);
 
 
 // Start server
