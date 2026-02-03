@@ -6,7 +6,7 @@ export const createUserTable = async () => {
             id SERIAL PRIMARY KEY,
             username VARCHAR(50) UNIQUE NOT NULL,
             email VARCHAR(100) UNIQUE NOT NULL,
-            isAdmin BOOLEAN DEFAULT FALSE,
+            isadmin BOOLEAN DEFAULT FALSE,
             password_hash VARCHAR(255) NOT NULL
         )
     `);
@@ -15,15 +15,15 @@ export const createUserTable = async () => {
 class User {
     static async findByUsername(username) {
         const result = await pool.query(
-            'SELECT id, email, isAdmin, password_hash FROM users WHERE username = $1', 
+            'SELECT id, email, isadmin, password_hash FROM users WHERE username = $1',
             [username]
         );
         return result.rows[0];
     }
-    
+
     static async findByEmail(email) {
         const result = await pool.query(
-            'SELECT id, username, isAdmin, password_hash FROM users WHERE email = $1', 
+            'SELECT id, username, isadmin, password_hash FROM users WHERE email = $1',
             [email]
         );
         return result.rows[0];
@@ -35,6 +35,13 @@ class User {
             [username, email, passwordHash]
         );
         return result.rows[0];
+    }
+
+    static async getAll() {
+        const result = await pool.query(
+            'SELECT id, username, email, isadmin FROM users ORDER BY id'
+        );
+        return result.rows;
     }
 }
 

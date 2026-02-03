@@ -1,32 +1,7 @@
 import bcrypt from 'bcrypt';
 import User from '../models/userModel.js'; // Import User model
+import { generateJWT } from '../middlewares/authMiddleware.js';
 
-export const loginUser = async (req, res) => {
-    const { email, password } = req.body;
-
-    try {
-        const user = await User.findByEmail(email);
-        if (!user) return res.status(401).send('Invalid credentials');
-
-        const isMatch = await bcrypt.compare(password, user.password_hash);
-        if (!isMatch) {
-            return res.status(401).send('Invalid password credentials');
-        }
-
-        if (user.isadmin) {
-            // Do admin stuff
-            res.redirect('/admin/dashboard');
-        }
-        else
-        {
-            res.redirect('/user/dashboard');
-        }
-
-    } catch (error) {
-        console.error('Error during login:', error);
-        res.status(500).send('Server error during login.');
-    }
-};
 
 export const registerUser = async (req, res) => {
     const { username, email, password } = req.body; // Data is already validated by middleware
@@ -42,4 +17,36 @@ export const registerUser = async (req, res) => {
         console.error('Error registering user:', error);
         res.status(500).send('Error registering user.');
     }
+};
+
+
+export const loginUser = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findByEmail(email);
+        if (!user) return res.status(401).send('Invalid credentials');
+
+        const isMatch = await bcrypt.compare(password, user.password_hash);
+        if (!isMatch) {
+            return res.status(401).send('Invalid password credentials');
+        }
+        const payload = {
+            id: user.id,
+            isadmin: user.isadmin
+        };
+        const token = generateJWT(payload);
+        res.cookie('token', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+        const redirectTo = user.isadmin ? '/admin/dashboard' : '/user/dashboard';
+        res.redirect(redirectTo);
+
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).send('Server error during login.');
+    }
+};
+
+export const logoutUser = (req, res) => {
+    res.clearCookie('token');
+    res.redirect('/login');
 };

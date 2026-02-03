@@ -13,7 +13,11 @@ export const getRegister = (req, res) => {
 };
 
 export const getLogin = (req, res) => {
-    res.sendFile(path.join(__dirname, '..', '..', 'public', 'html' ,'login.html'));
+    res.sendFile(path.join(__dirname, '..', '..', 'public', 'html', 'login.html'));
+};
+
+export const getSearch = (req, res) => {
+    res.redirect('/login');
 };
 
 

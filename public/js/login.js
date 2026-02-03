@@ -28,29 +28,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (isValid) {
             try {
-                const response = await fetch('/auth/login',{
-                        method :'POST',
-                        body :JSON.stringify({ email, password }),
-                        headers: {
-                            'Content-type': 'application/json'
-                        }
-                    });
-                    if(response.redirected)
-                    {
-                        window.location.href=response.url;
-                    }
-            }catch(error)
-            {
-                console.error('network or fetch error:', error);
-                alert('an unexpected error occured.');
-            }
-    }
-    });
-        function displayError(elementId, message) {
-            const errorElement = document.getElementById(elementId);
-            if (errorElement) {
-                errorElement.textContent = message;
-                errorElement.style.display = 'block';
+                const response = await fetch('/auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ email, password }),
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include'
+                });
+
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    const errorText = await response.text();
+                    alert('Login failed: ' + (errorText || 'Invalid credentials'));
+                }
+            } catch (error) {
+                console.error('Network or fetch error:', error);
+                alert('An unexpected error occurred.');
             }
         }
     });
+
+    function displayError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+    }
+});

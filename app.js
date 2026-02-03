@@ -1,13 +1,14 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
-import { initdb } from './src/configs/initdb.js';``
+import { initdb } from './src/configs/initdb.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import indexRoute from './src/routes/indexRoute.js';
 import authRoute from './src/routes/authRoute.js';
 import adminRoute from './src/routes/adminRoute.js';
 import userRoute from './src/routes/userRoute.js';
-
+import { jwtAuthMiddleware } from './src/middlewares/authMiddleware.js';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ await initdb();
 app.use(express.urlencoded({ extended: true }));
 // Middleware to parse JSON bodies
 app.use(express.json());
+app.use(cookieParser());
 
 // Serve static files from public
 app.use(express.static(path.join(__dirname, 'public')));
@@ -29,8 +31,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.use('/', indexRoute);           
 app.use('/auth', authRoute);  
-app.use('/admin',adminRoute);
-app.use('/user',userRoute);
+app.use('/admin', jwtAuthMiddleware, adminRoute);
+app.use('/user', jwtAuthMiddleware, userRoute);
 
 
 // Start server
